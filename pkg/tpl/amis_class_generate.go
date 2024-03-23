@@ -17,14 +17,12 @@ func AmisClassGenerate() string {
 		fileName := strings.ReplaceAll(v, ".go", "")
 		className := util.SnakeToPascal(fileName)
 
-
 		content += `
 
-		func (a *Amis) ` + className + `() *`+ className +`{
-			return New` + className + `();
-		}`
+	func (a *Amis) ` + className + `() *` + className + `{
+		return New` + className + `();
+	}`
 	}
-
 
 	return content
 }
@@ -34,5 +32,9 @@ func amisClassHeader() string {
 	return `package renderers
 
 type Amis struct {}
+
+func NewAmis() *Amis {
+	return &Amis{}
+}
 `
 }
