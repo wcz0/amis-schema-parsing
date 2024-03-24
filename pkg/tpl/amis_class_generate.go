@@ -19,8 +19,8 @@ func AmisClassGenerate() string {
 
 		content += `
 
-	func (a *Amis) ` + className + `() *` + className + `{
-		return New` + className + `();
+	func ` + className + `() *renderers.` + className + `{
+		return renderers.New` + className + `();
 	}`
 	}
 
@@ -29,12 +29,9 @@ func AmisClassGenerate() string {
 
 // amisClassHeader amisClass 头部
 func amisClassHeader() string {
-	return `package renderers
+	return `package gamis
 
-type Amis struct {}
+import "github.com/wcz0/gamis/renderers"
 
-func NewAmis() *Amis {
-	return &Amis{}
-}
 `
 }

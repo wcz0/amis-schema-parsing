@@ -63,11 +63,12 @@ func (t *Tpl) doClass() {
 `
 	if t.Data.(map[string]interface{})["description"] != nil {
 		t.Content += " * " + util.ClearLineBreak(t.Data.(map[string]interface{})["description"].(string)) + "\n"
-		t.Content += " *\n"
 	}
 
 	t.Content += `
-*/
+ * @author wcz0
+ * @version 6.2.2
+ */
 `
 
 	t.Content += `type ` + t.ClassName + ` struct {
