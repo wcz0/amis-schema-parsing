@@ -77,7 +77,7 @@ func generateRenderClass() {
 	// 生成 amisClass, amisMake()
 	amisClass := tpl.AmisClassGenerate()
 
-	_ = ioutil.WriteFile("./renderers/amis.go", []byte(amisClass), 0644)
+	_ = ioutil.WriteFile("./dist/amis.go", []byte(amisClass), 0644)
 
 	fmt.Println("耗时：", time.Since(timeStart))
 }
@@ -85,13 +85,13 @@ func generateRenderClass() {
 // WriteFile 写入文件
 func WriteFile(data map[string]interface{}, schemaMap map[string]string) {
 	// 检查目录
-	util.InitDir("./renderers")
+	util.InitDir("./dist/renderers")
 
 	// 先复制补充文件
 	files, _ := ioutil.ReadDir("./origins")
 
 	for _, file := range files {
-		util.CopyFile("./origins/"+file.Name(), "./renderers/"+file.Name())
+		util.CopyFile("./origins/"+file.Name(), "./dist/renderers/"+file.Name())
 	}
 
 	// 生成文件
@@ -110,7 +110,7 @@ func WriteFile(data map[string]interface{}, schemaMap map[string]string) {
 		t.Replace()
 
 		// 写入文件
-		_ = ioutil.WriteFile("./renderers/"+util.PascalToSnake(className)+".go", []byte(t.Content), 0644)
+		_ = ioutil.WriteFile("./dist/renderers/"+util.PascalToSnake(className)+".go", []byte(t.Content), 0644)
 	}
 }
 

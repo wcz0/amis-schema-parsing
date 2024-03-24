@@ -9,7 +9,7 @@ import (
 func AmisClassGenerate() string {
 	// 读取 Renderers 目录下的文件名
 
-	files := util.ReadDir("renderers")
+	files := util.ReadDir("./dist/renderers")
 
 	content := amisClassHeader()
 
@@ -18,10 +18,10 @@ func AmisClassGenerate() string {
 		className := util.SnakeToPascal(fileName)
 
 		content += `
-
-	func ` + className + `() *renderers.` + className + `{
-		return renderers.New` + className + `();
-	}`
+func ` + className + `() *renderers.` + className + `{
+	return renderers.New` + className + `();
+}
+`
 	}
 
 	return content
@@ -32,6 +32,5 @@ func amisClassHeader() string {
 	return `package gamis
 
 import "github.com/wcz0/gamis/renderers"
-
 `
 }
