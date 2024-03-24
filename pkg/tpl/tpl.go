@@ -176,7 +176,7 @@ func (t *Tpl) doMethod() {
 			}
 
 			t.Content += " */\n"
-			t.Content += "func (a *" + t.ClassName + ") " + strings.Title(key) + "(value string) *" + t.ClassName + " {\n"
+			t.Content += "func (a *" + t.ClassName + ") " + strings.Title(key) + "(value interface{}) *" + t.ClassName + " {\n"
 			t.Content += "    a.Set(\"" + key + "\", value)\n"
 			t.Content += "    return a\n"
 			t.Content += "}\n\n"
