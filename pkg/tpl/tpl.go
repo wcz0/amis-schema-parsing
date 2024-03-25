@@ -122,36 +122,6 @@ func (t *Tpl) doMethod() {
 	// 	}
 	// }
 	// PHP 映射包包
-	// for key, value := range properties {
-	// 	if key != "$ref" {
-	// 		t.Content += "/**\n"
-	// 		if value.(map[string]interface{})["description"] != nil {
-	// 			t.Content += " * " + util.ClearLineBreak(value.(map[string]interface{})["description"].(string)) + "\n"
-	// 		}
-
-	// 		// 将enum中的值拼接到description后面
-	// 		if value.(map[string]interface{})["enum"] != nil {
-	// 			t.Content += " * 可选值: "
-	// 			for _, v := range value.(map[string]interface{})["enum"].([]interface{}) {
-	// 				// 获取v的类型
-	// 				switch v.(type) {
-	// 				case bool:
-	// 					t.Content += fmt.Sprintf("%v", v.(bool)) + " | "
-	// 				default:
-	// 					t.Content += fmt.Sprintf("%v", v) + " | "
-	// 				}
-	// 			}
-	// 			t.Content = strings.TrimSuffix(t.Content, " | ") // 去掉最后的 " | "
-	// 			t.Content += "\n"
-	// 		}
-
-	// 		t.Content += " */\n"
-	// 		t.Content += "public function " + key + "($value = '') {\n"
-	// 		t.Content += "    return $this->set('" + key + "', $value);\n"
-	// 		t.Content += "}\n\n"
-	// 	}
-	// }
-	// GO 映射包
 	for key, value := range properties {
 		if key != "$ref" {
 			t.Content += "/**\n"
@@ -176,9 +146,8 @@ func (t *Tpl) doMethod() {
 			}
 
 			t.Content += " */\n"
-			t.Content += "func (a *" + t.ClassName + ") " + strings.Title(key) + "(value interface{}) *" + t.ClassName + " {\n"
-			t.Content += "    a.Set(\"" + key + "\", value)\n"
-			t.Content += "    return a\n"
+			t.Content += "public function " + key + "($value = '') {\n"
+			t.Content += "    return $this->set('" + key + "', $value);\n"
 			t.Content += "}\n\n"
 		}
 	}
@@ -215,34 +184,8 @@ func (t *Tpl) doContent() {
 	// 	}
 	// }
 	// PHP 映射包2
-	// 	t.Content += "class AjaxAction extends BaseRenderer\n{\n"
-	// t.Content += "    public function __construct()\n    {\n"
-
-	// for key, value := range properties {
-	// 	// 必须的属性
-	// 	_required := t.Data.(map[string]interface{})["required"]
-	// 	if _required != nil {
-	// 		for _, v := range _required.([]interface{}) {
-	// 			// 查找对应属性的 const 或 enum
-	// 			if key == v.(string) {
-	// 				if value.(map[string]any)["const"] != nil {
-	// 					t.Content += "        $this->set('" + v.(string) + "', '" + value.(map[string]any)["const"].(string) + "');\n"
-	// 				} else {
-	// 					if value.(map[string]any)["enum"] != nil {
-	// 						t.Content += "        $this->set('" + v.(string) + "', '" + value.(map[string]any)["enum"].([]interface{})[0].(string) + "');\n"
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-	// t.Content += "    }\n}"
-	// GO 映射包
-	t.Content += "func New" + t.ClassName + "() *" + t.ClassName + " {\n"
-	t.Content += "    a := &" + t.ClassName + "{\n"
-	t.Content += "        BaseRenderer: NewBaseRenderer(),\n"
-	t.Content += "    }\n\n"
+		t.Content += "class AjaxAction extends BaseRenderer\n{\n"
+	t.Content += "    public function __construct()\n    {\n"
 
 	for key, value := range properties {
 		// 必须的属性
@@ -251,17 +194,20 @@ func (t *Tpl) doContent() {
 			for _, v := range _required.([]interface{}) {
 				// 查找对应属性的 const 或 enum
 				if key == v.(string) {
-					if value.(map[string]interface{})["const"] != nil {
-						t.Content += "    a.Set(\"" + v.(string) + "\", \"" + value.(map[string]interface{})["const"].(string) + "\")\n"
+					if value.(map[string]any)["const"] != nil {
+						t.Content += "        $this->set('" + v.(string) + "', '" + value.(map[string]any)["const"].(string) + "');\n"
 					} else {
-						if value.(map[string]interface{})["enum"] != nil {
-							t.Content += "    a.Set(\"" + v.(string) + "\", \"" + value.(map[string]interface{})["enum"].([]interface{})[0].(string) + "\")\n"
+						if value.(map[string]any)["enum"] != nil {
+							t.Content += "        $this->set('" + v.(string) + "', '" + value.(map[string]any)["enum"].([]interface{})[0].(string) + "');\n"
 						}
 					}
 				}
 			}
 		}
 	}
+
+	t.Content += "    }\n}"
+	
 
 	t.Content += "    return a\n"
 	t.Content += "}\n\n"
