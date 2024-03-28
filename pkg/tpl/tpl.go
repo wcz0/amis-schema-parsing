@@ -21,15 +21,13 @@ var NeedUploadMap = []string{
 
 // init 文件头
 func (t *Tpl) init() {
-	t.Content = `package renderers
-
-`
+	t.Content = `package com.wcz0.renderers;`
 }
 
 // Replace 处理
 func (t *Tpl) Replace() {
 	t.init()
-	// t.doNamespace()
+	t.doNamespace()
 	t.doClass()
 	t.doDoc()
 	t.replaceUrl()
@@ -37,9 +35,6 @@ func (t *Tpl) Replace() {
 
 // doNamespace 处理命名空间
 func (t *Tpl) doNamespace() {
-	t.Content += `
-`
-
 	// 判断是否需要上传文件
 	// 	for _, v := range NeedUploadMap {
 	// 		if t.ClassName == v {
@@ -69,11 +64,11 @@ func (t *Tpl) doClass() {
  * @author wcz0
  * @version 6.2.2
  */
-`
+public class ` + t.ClassName + ` extends BaseRenderer {
 
-	t.Content += `type ` + t.ClassName + ` struct {
-	*BaseRenderer
-}
+	publice ` + t.ClassName + `() {
+		this.set("type", "` + util.PascalToCamel(t.ClassName) + `");
+	}
 
 `
 	// 判断是否需要上传文件
@@ -87,6 +82,7 @@ func (t *Tpl) doClass() {
 	// 	}
 
 	t.doContent()
+
 }
 
 // doMethod 处理方法
@@ -96,72 +92,18 @@ func (t *Tpl) doMethod() {
 	// 补充方法
 	properties = addSomeMethod(t.ClassName, properties)
 
-	// for key, value := range properties {
-	// 	if key != "$ref" {
-	// 		t.Content += " * @method self " + key + "($value) "
-	// 		// 判断description是否存在
-	// 		if value.(map[string]interface{})["description"] != nil {
-	// 			t.Content += util.ClearLineBreak(value.(map[string]interface{})["description"].(string))
-	// 		}
-
-	// 		// 将enum中的值拼接到description后面
-	// 		if value.(map[string]interface{})["enum"] != nil {
-	// 			t.Content += " 可选值: "
-	// 			for _, v := range value.(map[string]interface{})["enum"].([]interface{}) {
-	// 				// 获取v的类型
-	// 				switch v.(type) {
-	// 				case bool:
-	// 					t.Content += fmt.Sprintf("%v", v.(bool)) + " | "
-	// 				default:
-	// 					t.Content += fmt.Sprintf("%v", v) + " | "
-	// 				}
-	// 			}
-	// 		}
-
-	// 		t.Content += "\n"
-	// 	}
-	// }
-	// PHP 映射包包
-	// for key, value := range properties {
-	// 	if key != "$ref" {
-	// 		t.Content += "/**\n"
-	// 		if value.(map[string]interface{})["description"] != nil {
-	// 			t.Content += " * " + util.ClearLineBreak(value.(map[string]interface{})["description"].(string)) + "\n"
-	// 		}
-
-	// 		// 将enum中的值拼接到description后面
-	// 		if value.(map[string]interface{})["enum"] != nil {
-	// 			t.Content += " * 可选值: "
-	// 			for _, v := range value.(map[string]interface{})["enum"].([]interface{}) {
-	// 				// 获取v的类型
-	// 				switch v.(type) {
-	// 				case bool:
-	// 					t.Content += fmt.Sprintf("%v", v.(bool)) + " | "
-	// 				default:
-	// 					t.Content += fmt.Sprintf("%v", v) + " | "
-	// 				}
-	// 			}
-	// 			t.Content = strings.TrimSuffix(t.Content, " | ") // 去掉最后的 " | "
-	// 			t.Content += "\n"
-	// 		}
-
-	// 		t.Content += " */\n"
-	// 		t.Content += "public function " + key + "($value = '') {\n"
-	// 		t.Content += "    return $this->set('" + key + "', $value);\n"
-	// 		t.Content += "}\n\n"
-	// 	}
-	// }
-	// GO 映射包
 	for key, value := range properties {
 		if key != "$ref" {
-			t.Content += "/**\n"
+			t.Content += `
+	/**
+	`
 			if value.(map[string]interface{})["description"] != nil {
 				t.Content += " * " + util.ClearLineBreak(value.(map[string]interface{})["description"].(string)) + "\n"
 			}
 
 			// 将enum中的值拼接到description后面
 			if value.(map[string]interface{})["enum"] != nil {
-				t.Content += " * 可选值: "
+				t.Content += "    * 可选值: "
 				for _, v := range value.(map[string]interface{})["enum"].([]interface{}) {
 					// 获取v的类型
 					switch v.(type) {
@@ -175,13 +117,15 @@ func (t *Tpl) doMethod() {
 				t.Content += "\n"
 			}
 
-			t.Content += " */\n"
-			t.Content += "func (a *" + t.ClassName + ") " + strings.Title(key) + "(value interface{}) *" + t.ClassName + " {\n"
-			t.Content += "    a.Set(\"" + key + "\", value)\n"
-			t.Content += "    return a\n"
-			t.Content += "}\n\n"
+			t.Content += `    */
+	public ` + t.ClassName + ` ` + key + `(Object value) {
+		return (` + t.ClassName + `) this.set("` + key + `", value);
+	}
+	`
 		}
 	}
+
+	t.Content += "}\n"
 
 	t.Content = t.Content[:len(t.Content)-1]
 }
@@ -192,7 +136,7 @@ func (t *Tpl) doContent() {
 		return
 	}
 
-	properties := t.Data.(map[string]interface{})["properties"].(map[string]interface{})
+	// properties := t.Data.(map[string]interface{})["properties"].(map[string]interface{})
 	// PHP 映射包
 	// for key, value := range properties {
 	// 	// 必须的属性
@@ -239,32 +183,26 @@ func (t *Tpl) doContent() {
 
 	// t.Content += "    }\n}"
 	// GO 映射包
-	t.Content += "func New" + t.ClassName + "() *" + t.ClassName + " {\n"
-	t.Content += "    a := &" + t.ClassName + "{\n"
-	t.Content += "        BaseRenderer: NewBaseRenderer(),\n"
-	t.Content += "    }\n\n"
 
-	for key, value := range properties {
-		// 必须的属性
-		_required := t.Data.(map[string]interface{})["required"]
-		if _required != nil {
-			for _, v := range _required.([]interface{}) {
-				// 查找对应属性的 const 或 enum
-				if key == v.(string) {
-					if value.(map[string]interface{})["const"] != nil {
-						t.Content += "    a.Set(\"" + v.(string) + "\", \"" + value.(map[string]interface{})["const"].(string) + "\")\n"
-					} else {
-						if value.(map[string]interface{})["enum"] != nil {
-							t.Content += "    a.Set(\"" + v.(string) + "\", \"" + value.(map[string]interface{})["enum"].([]interface{})[0].(string) + "\")\n"
-						}
-					}
-				}
-			}
-		}
-	}
-
-	t.Content += "    return a\n"
-	t.Content += "}\n\n"
+	// for key, value := range properties {
+	// 	// 必须的属性
+	// 	_required := t.Data.(map[string]interface{})["required"]
+	// 	if _required != nil {
+	// 		for _, v := range _required.([]interface{}) {
+	// 			// 查找对应属性的 const 或 enum
+	// 			if key == v.(string) {
+	// 				if value.(map[string]interface{})["const"] != nil {
+	// 					t.Content += "    a.Set(\"" + v.(string) + "\", \"" + value.(map[string]interface{})["const"].(string) + "\")\n"
+	// 				} else {
+	// 					if value.(map[string]interface{})["enum"] != nil {
+	// 						t.Content += "    a.Set(\"" + v.(string) + "\", \"" + value.(map[string]interface{})["enum"].([]interface{})[0].(string) + "\")\n"
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
+	// t.Content += "}\n"
 
 	// TODO: 文件上传
 	// 	// 文件上传路径 默认值

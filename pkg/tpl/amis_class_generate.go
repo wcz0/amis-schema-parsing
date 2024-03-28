@@ -13,24 +13,36 @@ func AmisClassGenerate() string {
 
 	content := amisClassHeader()
 
+	content += "\nclass Amis {\n"
+
 	for _, v := range files {
-		fileName := strings.ReplaceAll(v, ".go", "")
+		fileName := strings.ReplaceAll(v, ".java", "")
 		className := util.SnakeToPascal(fileName)
 
 		content += `
-func ` + className + `() *renderers.` + className + `{
-	return renderers.New` + className + `();
-}
+	public static `+ className + ` ` + className + `(){
+		return new ` + className + `();
+	}
 `
 	}
+
+	content += `
+}`
 
 	return content
 }
 
 // amisClassHeader amisClass 头部
 func amisClassHeader() string {
-	return `package gamis
+	content := `package com.wcz0;
 
-import "github.com/wcz0/gamis/renderers"
 `
+	files := util.ReadDir("./dist/renderers")
+
+	for _, v := range files {
+		fileName := strings.ReplaceAll(v, ".java", "")
+		content += `import com.wcz0.renderers.` + fileName + `;
+`
+	}
+	return content
 }

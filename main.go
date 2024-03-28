@@ -77,7 +77,7 @@ func generateRenderClass() {
 	// 生成 amisClass, amisMake()
 	amisClass := tpl.AmisClassGenerate()
 
-	_ = ioutil.WriteFile("./dist/amis.go", []byte(amisClass), 0644)
+	_ = ioutil.WriteFile("./dist/Amis.java", []byte(amisClass), 0644)
 
 	fmt.Println("耗时：", time.Since(timeStart))
 }
@@ -110,7 +110,7 @@ func WriteFile(data map[string]interface{}, schemaMap map[string]string) {
 		t.Replace()
 
 		// 写入文件
-		_ = ioutil.WriteFile("./dist/renderers/"+util.PascalToSnake(className)+".go", []byte(t.Content), 0644)
+		_ = ioutil.WriteFile("./dist/renderers/"+ className +".java", []byte(t.Content), 0644)
 	}
 }
 
