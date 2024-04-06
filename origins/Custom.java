@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class Custom extends BaseRenderer {
 
-    Custom() {
+    public Custom() {
         this.set("type", "custom");
     }
+    
 
     /**
      * 自定义渲染器

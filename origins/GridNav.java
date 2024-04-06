@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class GridNav extends BaseRenderer {
 
-	GridNav() {
+	public GridNav() {
 		this.set("type", "grid-nav");
 	}
+
 
 	/**
 	 * 是否显示列表项边框

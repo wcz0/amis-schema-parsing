@@ -6,9 +6,11 @@ package com.wcz0.renderers;
  */
 public class ChartRadios extends BaseRenderer {
 
-	ChartRadios() {
+	public ChartRadios() {
 		this.set("type", "chart-radios");
 	}
+
+	
 
 	/**
 	 * 图表数值字段名

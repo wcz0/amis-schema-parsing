@@ -13,7 +13,7 @@ func AmisClassGenerate() string {
 
 	content := amisClassHeader()
 
-	content += "\nclass Amis {\n"
+	content += "\npublic class Amis {\n"
 
 	for _, v := range files {
 		fileName := strings.ReplaceAll(v, ".java", "")

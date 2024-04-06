@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class InputKVS extends BaseRenderer {
 
-	InputKVS() {
+	public InputKVS() {
 		this.set("type", "input-kvs");
 	}
+
 
 	/**
 	 * 数据录入配置，自动填充或者参照录入

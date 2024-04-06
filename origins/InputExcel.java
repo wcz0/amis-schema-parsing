@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class InputExcel extends BaseRenderer {
 
-	InputExcel() {
+	public InputExcel() {
 		this.set("type", "input-excel");
 	}
+
 
 	/**
 	 * 是否解析所有 sheet

@@ -4,7 +4,7 @@ package com.wcz0.renderers;
  * Barcode
  * @author wcz0
  */
-class Barcode extends BaseRenderer {
+public class Barcode extends BaseRenderer {
 
 	public Barcode() {
 		this.set("type", "barcode");

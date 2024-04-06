@@ -6,7 +6,7 @@ package com.wcz0.renderers;
  */
 public class Breadcrumb extends BaseRenderer {
 
-    Breadcrumb(){
+    public Breadcrumb(){
         this.set("type", "breadcrumb");
     }
 

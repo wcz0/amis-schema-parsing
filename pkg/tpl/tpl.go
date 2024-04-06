@@ -66,7 +66,7 @@ func (t *Tpl) doClass() {
  */
 public class ` + t.ClassName + ` extends BaseRenderer {
 
-	publice ` + t.ClassName + `() {
+	public ` + t.ClassName + `() {
 		this.set("type", "` + util.PascalToCamel(t.ClassName) + `");
 	}
 
@@ -85,12 +85,18 @@ public class ` + t.ClassName + ` extends BaseRenderer {
 
 }
 
+
 // doMethod 处理方法
 func (t *Tpl) doMethod() {
 	properties := t.Data.(map[string]interface{})["properties"].(map[string]interface{})
 
 	// 补充方法
 	properties = addSomeMethod(t.ClassName, properties)
+
+	JavaKeyWords := []string{
+		"static",
+		"char",
+	}
 
 	for key, value := range properties {
 		if key != "$ref" {
@@ -117,6 +123,11 @@ func (t *Tpl) doMethod() {
 				t.Content += "\n"
 			}
 
+			// 解决java 关键字冲突
+			if util.Contains(JavaKeyWords, key) {
+				key = key + "_"
+			}
+
 			t.Content += `    */
 	public ` + t.ClassName + ` ` + key + `(Object value) {
 		return (` + t.ClassName + `) this.set("` + key + `", value);
@@ -129,6 +140,7 @@ func (t *Tpl) doMethod() {
 
 	t.Content = t.Content[:len(t.Content)-1]
 }
+
 
 // doContent 处理内容
 func (t *Tpl) doContent() {

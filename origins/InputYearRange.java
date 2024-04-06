@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class InputYearRange extends BaseRenderer {
 
-    InputYearRange() {
+    public InputYearRange() {
         this.set("type", "input-year-range");
     }
+
 
     /**
      * 数据录入配置，自动填充或者参照录入

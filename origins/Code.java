@@ -6,7 +6,7 @@ package com.wcz0.renderers;
  */
 public class Code extends BaseRenderer{
 
-	Code() {
+	public Code() {
 		this.set("type", "code");
 	}
 

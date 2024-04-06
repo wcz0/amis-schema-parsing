@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class Log extends BaseRenderer {
 
-	Log() {
+	public Log() {
 		this.set("type", "log");
 	}
+
 
 	/**
 	 * 是否自动滚动到底部

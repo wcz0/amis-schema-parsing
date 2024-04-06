@@ -1,22 +1,3 @@
-// package renderers
-
-// type TableView struct {
-// 	*BaseRenderer
-// }
-
-// func NewTableView() *TableView {
-// 	t := &TableView{
-// 		BaseRenderer: NewBaseRenderer(),
-// 	}
-// 	t.Set("type", "table_view")
-// 	return t
-// }
-
-// func (t *TableView) Type(value interface{}) *TableView {
-// 	t.Set("type", value)
-// 	return t
-// }
-
 package com.wcz0.renderers;
 
 /**
@@ -25,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class TableView extends BaseRenderer {
 
-	TableView() {
+	public TableView() {
 		this.set("type", "table_view");
 	}
+	
 
 	/**
 	 * 指定为 table_view 渲染器。

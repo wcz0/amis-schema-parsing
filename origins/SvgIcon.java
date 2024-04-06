@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class SvgIcon extends BaseRenderer {
 
-	SvgIcon() {
+	public SvgIcon() {
 		this.set("type", "svg-icon");
 	}
+
 
 	/**
 	 * 外层类名

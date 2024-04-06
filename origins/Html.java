@@ -6,7 +6,8 @@ package com.wcz0.renderers;
  */
 public class Html extends BaseRenderer {
 
-	Html() {
+	public Html() {
 		this.set("type", "html");
 	}
+
 }

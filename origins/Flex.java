@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class Flex extends BaseRenderer {
 
-	Flex() {
+	public Flex() {
 		this.set("type", "flex");
 	}
+
 
 	/**
 	 * stretch, start, flex-start, flex-end, end, center, baseline

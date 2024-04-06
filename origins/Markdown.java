@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class Markdown extends BaseRenderer {
 
-	Markdown() {
+	public Markdown() {
 		this.set("type", "markdown");
 	}
+
 
 	/**
 	 * 类名

@@ -154,3 +154,13 @@ func SnakeToPascal(s string) string {
 
 	return strings.Join(words, "")
 }
+
+// contains 判断 key 是否在 keys 中
+func Contains(keys []string, key string) bool {
+	for _, k := range keys {
+		if k == key {
+			return true
+		}
+	}
+	return false
+}

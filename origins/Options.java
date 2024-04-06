@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class Options extends BaseRenderer {
 
-	Options() {
+	public Options() {
 		this.set("type", "options");
 	}
+
 
 	/**
 	 * 数据录入配置，自动填充或者参照录入

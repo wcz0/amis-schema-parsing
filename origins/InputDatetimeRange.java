@@ -6,9 +6,10 @@ package com.wcz0.renderers;
  */
 public class InputDatetimeRange extends BaseRenderer {
 
-	InputDatetimeRange() {
+	public InputDatetimeRange() {
 		this.set("type", "input-datetime-range");
 	}
+
 
 	/**
 	 * 数据录入配置，自动填充或者参照录入
