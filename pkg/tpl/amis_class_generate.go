@@ -17,11 +17,19 @@ func AmisClassGenerate() string {
 		fileName := strings.ReplaceAll(v, ".go", "")
 		className := util.SnakeToPascal(fileName)
 
-		content += `
-func ` + className + `() *renderers.` + className + `{
+		if className != "Component" {
+			content += `
+func ` + className + `() *renderers.` + className + ` {
 	return renderers.New` + className + `();
 }
 `
+		} else {
+			content += `
+func ` + className + `(typeStr string) *renderers.` + className + ` {
+	return renderers.New` + className + `(typeStr);
+}
+`
+		}
 	}
 
 	return content

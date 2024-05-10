@@ -96,61 +96,6 @@ func (t *Tpl) doMethod() {
 	// 补充方法
 	properties = addSomeMethod(t.ClassName, properties)
 
-	// for key, value := range properties {
-	// 	if key != "$ref" {
-	// 		t.Content += " * @method self " + key + "($value) "
-	// 		// 判断description是否存在
-	// 		if value.(map[string]interface{})["description"] != nil {
-	// 			t.Content += util.ClearLineBreak(value.(map[string]interface{})["description"].(string))
-	// 		}
-
-	// 		// 将enum中的值拼接到description后面
-	// 		if value.(map[string]interface{})["enum"] != nil {
-	// 			t.Content += " 可选值: "
-	// 			for _, v := range value.(map[string]interface{})["enum"].([]interface{}) {
-	// 				// 获取v的类型
-	// 				switch v.(type) {
-	// 				case bool:
-	// 					t.Content += fmt.Sprintf("%v", v.(bool)) + " | "
-	// 				default:
-	// 					t.Content += fmt.Sprintf("%v", v) + " | "
-	// 				}
-	// 			}
-	// 		}
-
-	// 		t.Content += "\n"
-	// 	}
-	// }
-	// PHP 映射包包
-	// for key, value := range properties {
-	// 	if key != "$ref" {
-	// 		t.Content += "/**\n"
-	// 		if value.(map[string]interface{})["description"] != nil {
-	// 			t.Content += " * " + util.ClearLineBreak(value.(map[string]interface{})["description"].(string)) + "\n"
-	// 		}
-
-	// 		// 将enum中的值拼接到description后面
-	// 		if value.(map[string]interface{})["enum"] != nil {
-	// 			t.Content += " * 可选值: "
-	// 			for _, v := range value.(map[string]interface{})["enum"].([]interface{}) {
-	// 				// 获取v的类型
-	// 				switch v.(type) {
-	// 				case bool:
-	// 					t.Content += fmt.Sprintf("%v", v.(bool)) + " | "
-	// 				default:
-	// 					t.Content += fmt.Sprintf("%v", v) + " | "
-	// 				}
-	// 			}
-	// 			t.Content = strings.TrimSuffix(t.Content, " | ") // 去掉最后的 " | "
-	// 			t.Content += "\n"
-	// 		}
-
-	// 		t.Content += " */\n"
-	// 		t.Content += "public function " + key + "($value = '') {\n"
-	// 		t.Content += "    return $this->set('" + key + "', $value);\n"
-	// 		t.Content += "}\n\n"
-	// 	}
-	// }
 	// GO 映射包
 	for key, value := range properties {
 		if key != "$ref" {
@@ -164,9 +109,9 @@ func (t *Tpl) doMethod() {
 				t.Content += " * 可选值: "
 				for _, v := range value.(map[string]interface{})["enum"].([]interface{}) {
 					// 获取v的类型
-					switch v.(type) {
+					switch v := v.(type) {
 					case bool:
-						t.Content += fmt.Sprintf("%v", v.(bool)) + " | "
+						t.Content += fmt.Sprintf("%v", v) + " | "
 					default:
 						t.Content += fmt.Sprintf("%v", v) + " | "
 					}
@@ -193,56 +138,13 @@ func (t *Tpl) doContent() {
 	}
 
 	properties := t.Data.(map[string]interface{})["properties"].(map[string]interface{})
-	// PHP 映射包
-	// for key, value := range properties {
-	// 	// 必须的属性
-	// 	_required := t.Data.(map[string]interface{})["required"]
-	// 	if _required != nil {
-	// 		for _, v := range _required.([]interface{}) {
-	// 			// 查找对应属性的 const 或 enum
-	// 			if key == v.(string) {
-	// 				if value.(map[string]any)["const"] != nil {
-	// 					t.Content += "    public string $" + v.(string) + " = '" + value.(map[string]any)["const"].(string) + "';"
-	// 					t.Content += "\n"
-	// 				} else {
-	// 					if value.(map[string]any)["enum"] != nil {
-	// 						t.Content += "    public string $" + v.(string) + " = '" + value.(map[string]any)["enum"].([]interface{})[0].(string) + "';"
-	// 						t.Content += "\n"
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-	// PHP 映射包2
-	// 	t.Content += "class AjaxAction extends BaseRenderer\n{\n"
-	// t.Content += "    public function __construct()\n    {\n"
 
-	// for key, value := range properties {
-	// 	// 必须的属性
-	// 	_required := t.Data.(map[string]interface{})["required"]
-	// 	if _required != nil {
-	// 		for _, v := range _required.([]interface{}) {
-	// 			// 查找对应属性的 const 或 enum
-	// 			if key == v.(string) {
-	// 				if value.(map[string]any)["const"] != nil {
-	// 					t.Content += "        $this->set('" + v.(string) + "', '" + value.(map[string]any)["const"].(string) + "');\n"
-	// 				} else {
-	// 					if value.(map[string]any)["enum"] != nil {
-	// 						t.Content += "        $this->set('" + v.(string) + "', '" + value.(map[string]any)["enum"].([]interface{})[0].(string) + "');\n"
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-	// t.Content += "    }\n}"
 	// GO 映射包
 	t.Content += "func New" + t.ClassName + "() *" + t.ClassName + " {\n"
 	t.Content += "    a := &" + t.ClassName + "{\n"
 	t.Content += "        BaseRenderer: NewBaseRenderer(),\n"
-	t.Content += "    }\n\n"
+	t.Content += "    }"
+	t.Content += "\n"
 
 	for key, value := range properties {
 		// 必须的属性
