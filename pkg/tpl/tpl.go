@@ -98,7 +98,7 @@ func (t *Tpl) doMethod() {
 
 	// GO 映射包
 	for key, value := range properties {
-		if key != "$ref" {
+		if key != "$ref" && key != "$$id" {
 			t.Content += "/**\n"
 			if value.(map[string]interface{})["description"] != nil {
 				t.Content += " * " + util.ClearLineBreak(value.(map[string]interface{})["description"].(string)) + "\n"
@@ -143,8 +143,7 @@ func (t *Tpl) doContent() {
 	t.Content += "func New" + t.ClassName + "() *" + t.ClassName + " {\n"
 	t.Content += "    a := &" + t.ClassName + "{\n"
 	t.Content += "        BaseRenderer: NewBaseRenderer(),\n"
-	t.Content += "    }"
-	t.Content += "\n"
+	t.Content += "    }\n"
 
 	for key, value := range properties {
 		// 必须的属性
@@ -166,7 +165,10 @@ func (t *Tpl) doContent() {
 	}
 
 	t.Content += "    return a\n"
-	t.Content += "}\n\n"
+	t.Content += "}\n"
+	t.Content += "\n\n"
+
+
 
 	// TODO: 文件上传
 	// 	// 文件上传路径 默认值
