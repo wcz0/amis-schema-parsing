@@ -39,6 +39,6 @@ func ` + className + `(typeStr string) *renderers.` + className + ` {
 func amisClassHeader() string {
 	return `package gamis
 
-import "github.com/wcz0/gamis/renderers"
+import "github.com/wcz0/gamis/v6/renderers"
 `
 }
