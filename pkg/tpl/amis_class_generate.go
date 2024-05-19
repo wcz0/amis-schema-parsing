@@ -13,6 +13,11 @@ func AmisClassGenerate() string {
 
 	content := amisClassHeader()
 
+	content += "\n\n"
+	content += "/**\n"
+	content += " * @author: wcz0\n"
+	content += " * version: 6.4.1\n"
+	content += " */"
 	content += "\npublic class Amis {\n"
 
 	for _, v := range files {
