@@ -4,9 +4,6 @@ import (
 	"amis_schema_parsing/pkg/util"
 	"fmt"
 	"strings"
-
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 )
 
 type Tpl struct {
@@ -99,9 +96,26 @@ func (t *Tpl) doMethod() {
 	// 补充方法
 	properties = addSomeMethod(t.ClassName, properties)
 
+	exist := []string{}
+
 	// GO 映射包
 	for key, value := range properties {
-		if key != "$ref" && key != "$$id" {
+		for _, v := range exist {
+			if v == key {
+				continue
+			}
+		}
+
+		if key != "$ref" && key != "$$id"  {
+			exist = append(exist, key)
+			// if t.ClassName == "RatingControl" && key == "readOnly" {
+			// 	continue
+			// }
+			// if t.ClassName == "Tpl" && key == "testIdBuilder" {
+			// 	continue
+			// }
+
+
 			t.Content += "/**\n"
 			if value.(map[string]interface{})["description"] != nil {
 				t.Content += " * " + util.ClearLineBreak(value.(map[string]interface{})["description"].(string)) + "\n"
@@ -123,10 +137,9 @@ func (t *Tpl) doMethod() {
 				t.Content += "\n"
 			}
 
-			caser := cases.Title(language.English)
 
 			t.Content += " */\n"
-			t.Content += "func (a *" + t.ClassName + ") " + caser.String(key) + "(value interface{}) *" + t.ClassName + " {\n"
+			t.Content += "func (a *" + t.ClassName + ") " + strings.Title(key) + "(value interface{}) *" + t.ClassName + " {\n"
 			t.Content += "    a.Set(\"" + key + "\", value)\n"
 			t.Content += "    return a\n"
 			t.Content += "}\n\n"
