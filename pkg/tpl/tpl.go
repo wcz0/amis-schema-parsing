@@ -150,16 +150,7 @@ func (t *Tpl) doContent() {
 	t.Content += "        BaseRenderer: NewBaseRenderer(),\n"
 	t.Content += "    }\n"
 	t.Content += "\n"
-	t.Content += "func (a *" + t.ClassName + ") Set(name string, value interface{}) *" + t.ClassName + " {\n"
-	t.Content += "    if name == \"map\" {\n"
-	t.Content += "        if v, ok := value.([]interface{}); ok && isArrayOfArrays(v) {\n"
-	t.Content += "            value = mapOfArrays(v)\n"
-	t.Content += "        }\n"
-	t.Content += "    }\n"
-	t.Content += "    a.AmisSchema[name] = value\n"
-	t.Content += "    return a\n"
-	t.Content += "}\n"
-	t.Content += "\n"
+
 
 	for key, value := range properties {
 		// 必须的属性
@@ -183,6 +174,16 @@ func (t *Tpl) doContent() {
 	t.Content += "    return a\n"
 	t.Content += "}\n"
 	t.Content += "\n\n"
+	t.Content += "func (a *" + t.ClassName + ") Set(name string, value interface{}) *" + t.ClassName + " {\n"
+	t.Content += "    if name == \"map\" {\n"
+	t.Content += "        if v, ok := value.([]interface{}); ok && isArrayOfArrays(v) {\n"
+	t.Content += "            value = mapOfArrays(v)\n"
+	t.Content += "        }\n"
+	t.Content += "    }\n"
+	t.Content += "    a.AmisSchema[name] = value\n"
+	t.Content += "    return a\n"
+	t.Content += "}\n"
+	t.Content += "\n"
 
 
 
