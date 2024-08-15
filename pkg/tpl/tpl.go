@@ -4,6 +4,9 @@ import (
 	"amis_schema_parsing/pkg/util"
 	"fmt"
 	"strings"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type Tpl struct {
@@ -120,8 +123,10 @@ func (t *Tpl) doMethod() {
 				t.Content += "\n"
 			}
 
+			caser := cases.Title(language.English)
+
 			t.Content += " */\n"
-			t.Content += "func (a *" + t.ClassName + ") " + strings.Title(key) + "(value interface{}) *" + t.ClassName + " {\n"
+			t.Content += "func (a *" + t.ClassName + ") " + caser.String(key) + "(value interface{}) *" + t.ClassName + " {\n"
 			t.Content += "    a.Set(\"" + key + "\", value)\n"
 			t.Content += "    return a\n"
 			t.Content += "}\n\n"
@@ -144,6 +149,17 @@ func (t *Tpl) doContent() {
 	t.Content += "    a := &" + t.ClassName + "{\n"
 	t.Content += "        BaseRenderer: NewBaseRenderer(),\n"
 	t.Content += "    }\n"
+	t.Content += "\n"
+	t.Content += "func (a *" + t.ClassName + ") Set(name string, value interface{}) *" + t.ClassName + " {\n"
+	t.Content += "    if name == \"map\" {\n"
+	t.Content += "        if v, ok := value.([]interface{}); ok && isArrayOfArrays(v) {\n"
+	t.Content += "            value = mapOfArrays(v)\n"
+	t.Content += "        }\n"
+	t.Content += "    }\n"
+	t.Content += "    a.AmisSchema[name] = value\n"
+	t.Content += "    return a\n"
+	t.Content += "}\n"
+	t.Content += "\n"
 
 	for key, value := range properties {
 		// 必须的属性

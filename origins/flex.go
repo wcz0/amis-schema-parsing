@@ -12,6 +12,16 @@ func NewFlex() *Flex {
 	return f
 }
 
+func (f *Flex) Set(name string, value interface{}) *Flex {
+	if name == "map" {
+		if v, ok := value.([]interface{}); ok && isArrayOfArrays(v) {
+			value = mapOfArrays(v)
+		}
+	}
+	f.AmisSchema[name] = value
+	return f
+}
+
 /**
  * stretch, start, flex-start, flex-end, end, center, baseline
  */
