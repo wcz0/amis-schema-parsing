@@ -91,7 +91,23 @@ func (t *Tpl) doClass() {
 
 // doMethod 处理方法
 func (t *Tpl) doMethod() {
-	properties := t.Data.(map[string]interface{})["properties"].(map[string]interface{})
+	dataMap, ok := t.Data.(map[string]interface{})
+	if !ok {
+		fmt.Println("警告: 无法将Data转换为map[string]interface{}")
+		return
+	}
+
+	propertiesVal, exists := dataMap["properties"]
+	if !exists || propertiesVal == nil {
+		fmt.Println("警告: properties不存在或为nil")
+		return
+	}
+
+	properties, ok := propertiesVal.(map[string]interface{})
+	if !ok {
+		fmt.Println("警告: 无法将properties转换为map[string]interface{}, 实际类型:", fmt.Sprintf("%T", propertiesVal))
+		return
+	}
 
 	// 补充方法
 	properties = addSomeMethod(t.ClassName, properties)
@@ -115,28 +131,38 @@ func (t *Tpl) doMethod() {
 			// 	continue
 			// }
 
-
 			t.Content += "/**\n"
-			if value.(map[string]interface{})["description"] != nil {
-				t.Content += " * " + util.ClearLineBreak(value.(map[string]interface{})["description"].(string)) + "\n"
-			}
-
-			// 将enum中的值拼接到description后面
-			if value.(map[string]interface{})["enum"] != nil {
-				t.Content += " * 可选值: "
-				for _, v := range value.(map[string]interface{})["enum"].([]interface{}) {
-					// 获取v的类型
-					switch v := v.(type) {
-					case bool:
-						t.Content += fmt.Sprintf("%v", v) + " | "
-					default:
-						t.Content += fmt.Sprintf("%v", v) + " | "
+			
+			valueMap, ok := value.(map[string]interface{})
+			if !ok {
+				// 处理value不是map的情况
+				t.Content += " * " + key + "\n"
+			} else {
+				// 处理description
+				if descVal, exists := valueMap["description"]; exists && descVal != nil {
+					if descStr, ok := descVal.(string); ok {
+						t.Content += " * " + util.ClearLineBreak(descStr) + "\n"
 					}
 				}
-				t.Content = strings.TrimSuffix(t.Content, " | ") // 去掉最后的 " | "
-				t.Content += "\n"
-			}
 
+				// 将enum中的值拼接到description后面
+				if enumVal, exists := valueMap["enum"]; exists && enumVal != nil {
+					if enumArr, ok := enumVal.([]interface{}); ok {
+						t.Content += " * 可选值: "
+						for _, v := range enumArr {
+							// 获取v的类型
+							switch v := v.(type) {
+							case bool:
+								t.Content += fmt.Sprintf("%v", v) + " | "
+							default:
+								t.Content += fmt.Sprintf("%v", v) + " | "
+							}
+						}
+						t.Content = strings.TrimSuffix(t.Content, " | ") // 去掉最后的 " | "
+						t.Content += "\n"
+					}
+				}
+			}
 
 			t.Content += " */\n"
 			t.Content += "func (a *" + t.ClassName + ") " + strings.Title(key) + "(value interface{}) *" + t.ClassName + " {\n"
@@ -146,16 +172,30 @@ func (t *Tpl) doMethod() {
 		}
 	}
 
-	t.Content = t.Content[:len(t.Content)-1]
+	if len(t.Content) > 0 {
+		t.Content = t.Content[:len(t.Content)-1]
+	}
 }
 
 // doContent 处理内容
 func (t *Tpl) doContent() {
-	if t.Data.(map[string]interface{})["properties"] == nil {
+	dataMap, ok := t.Data.(map[string]interface{})
+	if !ok {
+		fmt.Println("警告: 无法将Data转换为map[string]interface{}")
 		return
 	}
 
-	properties := t.Data.(map[string]interface{})["properties"].(map[string]interface{})
+	propertiesVal, exists := dataMap["properties"]
+	if !exists || propertiesVal == nil {
+		fmt.Println("警告: properties不存在或为nil")
+		return
+	}
+
+	properties, ok := propertiesVal.(map[string]interface{})
+	if !ok {
+		fmt.Println("警告: 无法将properties转换为map[string]interface{}, 实际类型:", fmt.Sprintf("%T", propertiesVal))
+		return
+	}
 
 	// GO 映射包
 	t.Content += "func New" + t.ClassName + "() *" + t.ClassName + " {\n"
@@ -164,19 +204,40 @@ func (t *Tpl) doContent() {
 	t.Content += "    }\n"
 	t.Content += "\n"
 
-
 	for key, value := range properties {
 		// 必须的属性
-		_required := t.Data.(map[string]interface{})["required"]
-		if _required != nil {
-			for _, v := range _required.([]interface{}) {
-				// 查找对应属性的 const 或 enum
-				if key == v.(string) {
-					if value.(map[string]interface{})["const"] != nil {
-						t.Content += "    a.Set(\"" + v.(string) + "\", \"" + value.(map[string]interface{})["const"].(string) + "\")\n"
-					} else {
-						if value.(map[string]interface{})["enum"] != nil {
-							t.Content += "    a.Set(\"" + v.(string) + "\", \"" + value.(map[string]interface{})["enum"].([]interface{})[0].(string) + "\")\n"
+		requiredVal, exists := dataMap["required"]
+		if exists && requiredVal != nil {
+			requiredArr, ok := requiredVal.([]interface{})
+			if ok {
+				for _, v := range requiredArr {
+					reqStr, ok := v.(string)
+					if !ok {
+						continue
+					}
+					
+					// 查找对应属性的 const 或 enum
+					if key == reqStr {
+						valueMap, ok := value.(map[string]interface{})
+						if !ok {
+							continue
+						}
+						
+						constVal, hasConst := valueMap["const"]
+						if hasConst && constVal != nil {
+							if constStr, ok := constVal.(string); ok {
+								t.Content += "    a.Set(\"" + reqStr + "\", \"" + constStr + "\")\n"
+							}
+						} else {
+							enumVal, hasEnum := valueMap["enum"]
+							if hasEnum && enumVal != nil {
+								enumArr, ok := enumVal.([]interface{})
+								if ok && len(enumArr) > 0 {
+									if enumStr, ok := enumArr[0].(string); ok {
+										t.Content += "    a.Set(\"" + reqStr + "\", \"" + enumStr + "\")\n"
+									}
+								}
+							}
 						}
 					}
 				}

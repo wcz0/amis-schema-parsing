@@ -5,7 +5,7 @@ import (
 	"amis_schema_parsing/pkg/util"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"time"
 )
 
@@ -26,7 +26,7 @@ func getResidueData() {
 
 	file, _ := json.MarshalIndent(definitions, "", " ")
 
-	_ = ioutil.WriteFile("./schema_new.json", file, 0644)
+	_ = os.WriteFile("./schema_new.json", file, 0644)
 }
 
 // generateRenderClass 生成render类
@@ -72,12 +72,12 @@ func generateRenderClass() {
 	// 生成映射
 	// rendererMap := tpl.RendererMap(schemaType, definitions)
 
-	// _ = ioutil.WriteFile("./renderers/RendererMap.php", []byte(rendererMap), 0644)
+	// _ = os.WriteFile("./renderers/RendererMap.php", []byte(rendererMap), 0644)
 
 	// 生成 amisClass, amisMake()
 	amisClass := tpl.AmisClassGenerate()
 
-	_ = ioutil.WriteFile("./dist/amis.go", []byte(amisClass), 0644)
+	_ = os.WriteFile("./dist/amis.go", []byte(amisClass), 0644)
 
 	fmt.Println("耗时：", time.Since(timeStart))
 }
@@ -88,7 +88,7 @@ func WriteFile(data map[string]interface{}, schemaMap map[string]string) {
 	util.InitDir("./dist/renderers")
 
 	// 先复制补充文件
-	files, _ := ioutil.ReadDir("./origins")
+	files, _ := os.ReadDir("./origins")
 
 	for _, file := range files {
 		util.CopyFile("./origins/"+file.Name(), "./dist/renderers/"+file.Name())
@@ -110,13 +110,13 @@ func WriteFile(data map[string]interface{}, schemaMap map[string]string) {
 		t.Replace()
 
 		// 写入文件
-		_ = ioutil.WriteFile("./dist/renderers/"+util.PascalToSnake(className)+".go", []byte(t.Content), 0644)
+		_ = os.WriteFile("./dist/renderers/"+util.PascalToSnake(className)+".go", []byte(t.Content), 0644)
 	}
 }
 
 // ReadJsonFile 读取json文件
 func ReadJsonFile() map[string]interface{} {
-	fileContent, err := ioutil.ReadFile("./schema.json")
+	fileContent, err := os.ReadFile("./schema-new.json")
 
 	if err != nil {
 		fmt.Println(err)
@@ -130,5 +130,11 @@ func ReadJsonFile() map[string]interface{} {
 		fmt.Println(err)
 	}
 
-	return data["definitions"].(map[string]interface{})
+	// 确保返回的是map[string]interface{}类型
+	if definitions, ok := data["definitions"].(map[string]interface{}); ok {
+		return definitions
+	} else {
+		fmt.Println("警告: 无法将definitions转换为map[string]interface{}")
+		return make(map[string]interface{})
+	}
 }

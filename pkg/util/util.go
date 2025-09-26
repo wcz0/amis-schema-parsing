@@ -2,7 +2,6 @@ package util
 
 import (
 	"io"
-	"io/ioutil"
 	"os"
 	"strings"
 	"unicode"
@@ -50,7 +49,7 @@ func CopyFile(src, dst string) {
 }
 
 func FileToArray(path string) []string {
-	content, _ := ioutil.ReadFile(path)
+	content, _ := os.ReadFile(path)
 
 	// 按行分割
 	return strings.Split(string(content), "\r")
@@ -88,9 +87,9 @@ func KebabToCamel(str string) string {
 func ReadDir(dir string) []string {
 	var files []string
 
-	dirList, _ := ioutil.ReadDir(dir)
+	dirEntries, _ := os.ReadDir(dir)
 
-	for _, v := range dirList {
+	for _, v := range dirEntries {
 		if !v.IsDir() {
 			files = append(files, v.Name())
 		}

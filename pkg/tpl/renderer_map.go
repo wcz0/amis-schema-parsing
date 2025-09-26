@@ -19,29 +19,11 @@ func RendererMap(schemaType interface{}, definitions map[string]interface{}) str
 	data := make(map[string]string)
 
 	for key, value := range definitions {
-		// 类名
-		className := key
+		className := util.GetClassName(key)
 
-		// 如果是以 Schema 或者 Object 结尾的则去掉后缀
-		if util.IsEndWith(key, "Schema") || util.IsEndWith(key, "Object") {
-			className = key[:len(key)-6]
-		}
-
-		// 关键字冲突
-		if className == "List" {
-			className = "ListRenderer"
-		}
-
-		// 判断是否存在 value.properties.type.const , 如果存在则取出值
-		if value.(map[string]interface{})["properties"] != nil {
-			valueProperties := value.(map[string]interface{})["properties"].(map[string]interface{})
-
-			if valueProperties["type"] != nil {
-				valueType := valueProperties["type"].(map[string]interface{})
-
-				if valueType["const"] != nil {
-					data[valueType["const"].(string)] = className
-				}
+		if valueMap, ok := value.(map[string]interface{}); ok {
+			for _, k := range extractSchemaTypes(valueMap) {
+				data[k] = className
 			}
 		}
 	}
@@ -84,21 +66,120 @@ func GetMap(schemaType interface{}, definitions map[string]interface{}) map[stri
 	for key, value := range definitions {
 		className := util.GetClassName(key)
 
-		// 判断是否存在 value.properties.type.const , 如果存在则取出值
-		if value.(map[string]interface{})["properties"] != nil {
-			valueProperties := value.(map[string]interface{})["properties"].(map[string]interface{})
-
-			if valueProperties["type"] != nil {
-				valueType := valueProperties["type"].(map[string]interface{})
-
-				if valueType["const"] != nil {
-					data[valueType["const"].(string)] = className
-				}
+		if valueMap, ok := value.(map[string]interface{}); ok {
+			for _, k := range extractSchemaTypes(valueMap) {
+				data[k] = className
 			}
 		}
 	}
 
 	return appendExtra(data)
+}
+
+// 提取 schema 中的类型字符串，兼容新旧结构
+func extractSchemaTypes(valueMap map[string]interface{}) []string {
+	types := []string{}
+
+	// 处理新版 schema 结构 (allOf)
+	if allOf, ok := valueMap["allOf"].([]interface{}); ok {
+		for _, item := range allOf {
+			if itemMap, ok := item.(map[string]interface{}); ok {
+				// 处理 allOf 中的 properties
+				if props, exists := itemMap["properties"]; exists && props != nil {
+					extractFromProperties(props, &types)
+				}
+				
+				// 处理 allOf 中的 required 和 type
+				if typeVal, exists := itemMap["type"]; exists && typeVal != nil {
+					if typeStr, ok := typeVal.(string); ok && typeStr == "object" {
+						continue // 跳过 object 类型
+					}
+					
+					// 处理 const 类型
+					if constVal, exists := itemMap["const"]; exists && constVal != nil {
+						if constStr, ok := constVal.(string); ok {
+							appendUnique(&types, constStr)
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// 处理旧版 schema 结构 (直接 properties)
+	if props, exists := valueMap["properties"]; exists && props != nil {
+		extractFromProperties(props, &types)
+	}
+
+	// 处理顶层 type 字段
+	if typeVal, exists := valueMap["type"]; exists && typeVal != nil {
+		if typeMap, ok := typeVal.(map[string]interface{}); ok {
+			// const 情况
+			if c, ok := typeMap["const"].(string); ok && c != "" {
+				appendUnique(&types, c)
+			}
+			// enum 情况
+			if enumVal, ok := typeMap["enum"].([]interface{}); ok && len(enumVal) > 0 {
+				if s, ok := enumVal[0].(string); ok {
+					appendUnique(&types, s)
+				}
+			}
+		} else if typeStr, ok := typeVal.(string); ok && typeStr != "object" {
+			// 直接是字符串类型值
+			appendUnique(&types, typeStr)
+		}
+	}
+
+	return types
+}
+
+// 从 properties 节点提取类型
+func extractFromProperties(props interface{}, types *[]string) {
+	if propsMap, ok := props.(map[string]interface{}); ok {
+		// 处理 properties.type 字段
+		if typeVal, exists := propsMap["type"]; exists && typeVal != nil {
+			if typeMap, ok := typeVal.(map[string]interface{}); ok {
+				// const 情况
+				if c, ok := typeMap["const"].(string); ok && c != "" {
+					appendUnique(types, c)
+				}
+				// enum 情况，取第一个即可（与旧逻辑保持一致）
+				if enumVal, ok := typeMap["enum"].([]interface{}); ok && len(enumVal) > 0 {
+					if s, ok := enumVal[0].(string); ok {
+						appendUnique(types, s)
+					}
+				}
+				// anyOf 情况
+				if anyOf, ok := typeMap["anyOf"].([]interface{}); ok {
+					for _, v := range anyOf {
+						if m, ok := v.(map[string]interface{}); ok {
+							if c2, ok := m["const"].(string); ok && c2 != "" {
+								appendUnique(types, c2)
+							}
+							if enum2, ok := m["enum"].([]interface{}); ok && len(enum2) > 0 {
+								if s2, ok := enum2[0].(string); ok {
+									appendUnique(types, s2)
+								}
+							}
+						}
+					}
+				}
+			} else if typeStr, ok := typeVal.(string); ok && typeStr != "object" {
+				// 直接是字符串类型值
+				appendUnique(types, typeStr)
+			}
+		}
+	}
+}
+
+// 去重追加
+func appendUnique(arr *[]string, val string) {
+	for _, v := range *arr {
+		if v == val {
+			return
+		}
+	}
+	*arr = append(*arr, val)
 }
 
 // 文件头
