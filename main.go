@@ -383,7 +383,7 @@ func writeAmisFile(outDir string, classes map[string]*PhpClass) error {
 
     // 包声明和导入
     sb.WriteString("package gamis\n\n")
-    sb.WriteString("import \"github.com/wcz0/gamis/renderers\"\n\n")
+    sb.WriteString("import \"github.com/wcz0/gamis/v6/renderers\"\n\n")
 
     // 收集所有类名并排序
     var classNames []string
