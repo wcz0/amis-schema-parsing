@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * InputSignature
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class InputSignature extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'input-signature');
-
-
     }
 
     /**
@@ -28,7 +26,7 @@ class InputSignature extends BaseRenderer
     /**
      * 组件背景颜色
      */
-    public function bgColor($value = '')
+    public function bgColor($value = '#efefef')
     {
         return $this->set('bgColor', $value);
     }
@@ -44,7 +42,7 @@ class InputSignature extends BaseRenderer
     /**
      * 清空按钮图标
      */
-    public function clearBtnIcon($value = '')
+    public function clearBtnIcon($value = '清空')
     {
         return $this->set('clearBtnIcon', $value);
     }
@@ -52,7 +50,7 @@ class InputSignature extends BaseRenderer
     /**
      * 清空按钮名称
      */
-    public function clearBtnLabel($value = '')
+    public function clearBtnLabel($value = '清空')
     {
         return $this->set('clearBtnLabel', $value);
     }
@@ -68,7 +66,7 @@ class InputSignature extends BaseRenderer
     /**
      * 组件字段颜色
      */
-    public function color($value = '')
+    public function color($value = '#000')
     {
         return $this->set('color', $value);
     }
@@ -76,7 +74,7 @@ class InputSignature extends BaseRenderer
     /**
      * 确认按钮图标
      */
-    public function confirmBtnIcon($value = '')
+    public function confirmBtnIcon($value = '确认')
     {
         return $this->set('confirmBtnIcon', $value);
     }
@@ -84,13 +82,14 @@ class InputSignature extends BaseRenderer
     /**
      * 确认按钮名称
      */
-    public function confirmBtnLabel($value = '')
+    public function confirmBtnLabel($value = '确认')
     {
         return $this->set('confirmBtnLabel', $value);
     }
 
     /**
-     * 
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -122,7 +121,7 @@ class InputSignature extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -218,7 +217,7 @@ class InputSignature extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -250,9 +249,9 @@ class InputSignature extends BaseRenderer
     }
 
     /**
-     * 
+     * 初始化时是否把其他字段同步到表单内部。
      */
-    public function initAutoFill($value = '')
+    public function initAutoFill($value = true)
     {
         return $this->set('initAutoFill', $value);
     }
@@ -274,7 +273,7 @@ class InputSignature extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -298,7 +297,15 @@ class InputSignature extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -362,7 +369,7 @@ class InputSignature extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
@@ -426,7 +433,7 @@ class InputSignature extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -466,15 +473,7 @@ class InputSignature extends BaseRenderer
     }
 
     /**
-     * 
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     * 表单项类型
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'input-signature')
     {
@@ -484,7 +483,7 @@ class InputSignature extends BaseRenderer
     /**
      * 清空按钮图标
      */
-    public function undoBtnIcon($value = '')
+    public function undoBtnIcon($value = '清空')
     {
         return $this->set('undoBtnIcon', $value);
     }
@@ -492,7 +491,7 @@ class InputSignature extends BaseRenderer
     /**
      * 撤销按钮名称
      */
-    public function undoBtnLabel($value = '')
+    public function undoBtnLabel($value = '撤销')
     {
         return $this->set('undoBtnLabel', $value);
     }
@@ -562,7 +561,7 @@ class InputSignature extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

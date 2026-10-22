@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * Pagination
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class Pagination extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'pagination');
-
-
     }
 
     /**
@@ -42,7 +40,7 @@ class Pagination extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -74,7 +72,7 @@ class Pagination extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -92,7 +90,7 @@ class Pagination extends BaseRenderer
     /**
      * 通过控制layout属性的顺序，调整分页结构 total,perPage,pager,go
      */
-    public function layout($value = '')
+    public function layout($value = 'pager')
     {
         return $this->set('layout', $value);
     }
@@ -100,7 +98,7 @@ class Pagination extends BaseRenderer
     /**
      * 最多显示多少个分页按钮。
      */
-    public function maxButtons($value = '')
+    public function maxButtons($value = 5)
     {
         return $this->set('maxButtons', $value);
     }
@@ -108,7 +106,7 @@ class Pagination extends BaseRenderer
     /**
      * 模式，默认normal，如果只想简单显示可以配置成 `simple`。 (模式，默认normal，如果只想简单显示可以配置成 `simple`。) 可选值: simple | normal
      */
-    public function mode($value = '')
+    public function mode($value = 'normal')
     {
         return $this->set('mode', $value);
     }
@@ -124,7 +122,7 @@ class Pagination extends BaseRenderer
     /**
      * 每页显示条数
      */
-    public function perPage($value = '')
+    public function perPage($value = 10)
     {
         return $this->set('perPage', $value);
     }
@@ -140,7 +138,7 @@ class Pagination extends BaseRenderer
     /**
      * 弹层挂载节点
      */
-    public function popOverContainerSelector($value = '')
+    public function popOverContainerSelector($value = false)
     {
         return $this->set('popOverContainerSelector', $value);
     }
@@ -194,7 +192,7 @@ class Pagination extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -228,14 +226,6 @@ class Pagination extends BaseRenderer
     /**
      * 
      */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     * 
-     */
     public function testid($value = '')
     {
         return $this->set('testid', $value);
@@ -250,7 +240,7 @@ class Pagination extends BaseRenderer
     }
 
     /**
-     * 
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'pagination')
     {
@@ -274,7 +264,7 @@ class Pagination extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

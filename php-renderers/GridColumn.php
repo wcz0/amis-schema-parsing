@@ -6,18 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * GridColumn
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class GridColumn extends BaseRenderer
 {
-    public function __construct()
-    {
-        
-
-    }
 
     /**
-     * 
+     * 邮件正文
      */
     public function body($value = '')
     {

@@ -3,18 +3,16 @@
 namespace Slowlyo\OwlAdmin\Renderers;
 
 /**
- * amis Page 渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/page
+ * amis Page 渲染器。详情请见：https://aisuda.bce.baidu.com/amis/zh-CN/components/page 一个页面只允许有一个 Page 渲染器。
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class Page extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'page');
-
-
     }
 
     /**
@@ -52,7 +50,7 @@ class Page extends BaseRenderer
     /**
      * 边栏位置 可选值: left | right
      */
-    public function asidePosition($value = '')
+    public function asidePosition($value = 'left')
     {
         return $this->set('asidePosition', $value);
     }
@@ -122,7 +120,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 
+     * 可以理解为类型模板，方便快速定义复杂类型
      */
     public function definitions($value = '')
     {
@@ -138,7 +136,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -170,7 +168,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -202,7 +200,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否默认就拉取表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否默认就拉取表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function initFetchOn($value = '')
     {
@@ -330,7 +328,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -354,7 +352,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 配置停止轮询的条件。 (表达式，语法 `data.xxx > 5`。)
+     * 配置停止轮询的条件。 (表达式，语法 `${xxx > 5}`。)
      */
     public function stopAutoRefreshWhen($value = '')
     {
@@ -375,14 +373,6 @@ class Page extends BaseRenderer
     public function subTitle($value = '')
     {
         return $this->set('subTitle', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
     }
 
     /**
@@ -442,7 +432,7 @@ class Page extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

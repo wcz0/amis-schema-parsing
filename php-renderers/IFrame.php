@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * IFrame 渲染器 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/iframe
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class IFrame extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'iframe');
-
-
     }
 
     /**
@@ -42,7 +40,7 @@ class IFrame extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -58,15 +56,7 @@ class IFrame extends BaseRenderer
     }
 
     /**
-     * 事件相应，配置后当 iframe 通过 postMessage 发送事件时，可以触发 AMIS 内部的动作。
-     */
-    public function events($value = '')
-    {
-        return $this->set('events', $value);
-    }
-
-    /**
-     * 
+     * Dialog 高度
      */
     public function height($value = '')
     {
@@ -82,7 +72,7 @@ class IFrame extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -98,7 +88,7 @@ class IFrame extends BaseRenderer
     }
 
     /**
-     * 
+     * 字段名，表单提交时的 key，支持多层级，用.连接，如： a.b.c
      */
     public function name($value = '')
     {
@@ -170,7 +160,7 @@ class IFrame extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -204,21 +194,13 @@ class IFrame extends BaseRenderer
     /**
      * 
      */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     * 
-     */
     public function testid($value = '')
     {
         return $this->set('testid', $value);
     }
 
     /**
-     * 
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'iframe')
     {
@@ -242,7 +224,7 @@ class IFrame extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {
@@ -250,7 +232,7 @@ class IFrame extends BaseRenderer
     }
 
     /**
-     * 
+     * Dialog 宽度
      */
     public function width($value = '')
     {

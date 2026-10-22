@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * Date 展示渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/date
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class Date extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'date');
-
-
     }
 
     /**
@@ -34,7 +32,7 @@ class Date extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -66,7 +64,7 @@ class Date extends BaseRenderer
     }
 
     /**
-     * 展示的时间格式，参考 moment 中的格式说明。
+     * 展示的时间格式，参考 moment 中的格式说明。 可选值: hex | hexa | rgb | rgba | hsl
      */
     public function format($value = '')
     {
@@ -90,7 +88,7 @@ class Date extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -154,7 +152,7 @@ class Date extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -188,21 +186,13 @@ class Date extends BaseRenderer
     /**
      * 
      */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     * 
-     */
     public function testid($value = '')
     {
         return $this->set('testid', $value);
     }
 
     /**
-     * 指定为日期展示类型 可选值: date | datetime | time | static-date | static-datetime | static-time
+     * 指定为日期展示类型
      */
     public function type($value = '')
     {
@@ -242,7 +232,7 @@ class Date extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * 表单向导 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/wizard
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class Wizard extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'wizard');
-
-
     }
 
     /**
@@ -60,7 +58,7 @@ class Wizard extends BaseRenderer
     /**
      * 是否将底部按钮固定在底部。
      */
-    public function affixFooter($value = '')
+    public function affixFooter($value = true)
     {
         return $this->set('affixFooter', $value);
     }
@@ -106,7 +104,7 @@ class Wizard extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -138,7 +136,7 @@ class Wizard extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -172,7 +170,7 @@ class Wizard extends BaseRenderer
     /**
      * 展示模式 可选值: vertical | horizontal
      */
-    public function mode($value = '')
+    public function mode($value = 'vertical')
     {
         return $this->set('mode', $value);
     }
@@ -258,7 +256,7 @@ class Wizard extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -290,7 +288,7 @@ class Wizard extends BaseRenderer
     }
 
     /**
-     * 
+     * 步骤
      */
     public function steps($value = '')
     {
@@ -319,14 +317,6 @@ class Wizard extends BaseRenderer
     public function target($value = '')
     {
         return $this->set('target', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
     }
 
     /**
@@ -362,7 +352,7 @@ class Wizard extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

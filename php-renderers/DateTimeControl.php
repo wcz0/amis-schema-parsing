@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * Datetime日期时间选择控件 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/datetime
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class DateTimeControl extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'input-datetime');
-
-
     }
 
     /**
@@ -58,7 +56,8 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -98,7 +97,7 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -138,9 +137,9 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 日期存储格式
+     * 日期存储格式 可选值: hex | hexa | rgb | rgba | hsl
      */
-    public function format($value = '')
+    public function format($value = 'X')
     {
         return $this->set('format', $value);
     }
@@ -154,7 +153,7 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -186,9 +185,9 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 
+     * 初始化时是否把其他字段同步到表单内部。
      */
-    public function initAutoFill($value = '')
+    public function initAutoFill($value = true)
     {
         return $this->set('initAutoFill', $value);
     }
@@ -220,7 +219,7 @@ class DateTimeControl extends BaseRenderer
     /**
      * 日期展示格式
      */
-    public function inputFormat($value = '')
+    public function inputFormat($value = 'YYYY-MM-DD HH:mm')
     {
         return $this->set('inputFormat', $value);
     }
@@ -234,7 +233,7 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -258,7 +257,15 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -338,7 +345,7 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
@@ -418,7 +425,7 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -458,14 +465,6 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
      * 时间输入范围限制
      */
     public function timeConstraints($value = '')
@@ -476,7 +475,7 @@ class DateTimeControl extends BaseRenderer
     /**
      * 时间的格式。
      */
-    public function timeFormat($value = '')
+    public function timeFormat($value = 'HH:mm')
     {
         return $this->set('timeFormat', $value);
     }
@@ -562,7 +561,7 @@ class DateTimeControl extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

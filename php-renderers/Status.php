@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * 状态展示控件。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/status
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class Status extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'status');
-
-
     }
 
     /**
@@ -34,7 +32,7 @@ class Status extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -58,7 +56,7 @@ class Status extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -76,7 +74,13 @@ class Status extends BaseRenderer
     /**
      * 文字映射关系
      */
-    public function labelMap($value = '')
+    public function labelMap($value = array (
+  'success' => '成功',
+  'pending' => '运行中',
+  'fail' => '失败',
+  'queue' => '排队中',
+  'schedule' => '调度中',
+))
     {
         return $this->set('labelMap', $value);
     }
@@ -84,7 +88,15 @@ class Status extends BaseRenderer
     /**
      * 状态图标映射关系
      */
-    public function map($value = '')
+    public function map($value = '{
+0: \'svg-fail\',
+1: \'svg-success\',
+success: \'svg-success\',
+pending: \'rolling\',
+fail: \'svg-fail\',
+queue: \'svg-warning\',
+schedule: \'svg-schedule\'
+}')
     {
         return $this->set('map', $value);
     }
@@ -100,7 +112,7 @@ class Status extends BaseRenderer
     /**
      * 占位符
      */
-    public function placeholder($value = '')
+    public function placeholder($value = '-')
     {
         return $this->set('placeholder', $value);
     }
@@ -146,7 +158,7 @@ class Status extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -175,14 +187,6 @@ class Status extends BaseRenderer
     public function style($value = '')
     {
         return $this->set('style', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
     }
 
     /**
@@ -218,7 +222,7 @@ class Status extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

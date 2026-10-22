@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * Divider 分割线渲染器。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/divider
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class Divider extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'divider');
-
-
     }
 
     /**
@@ -26,7 +24,7 @@ class Divider extends BaseRenderer
     }
 
     /**
-     * 
+     * 时间点圆圈颜色
      */
     public function color($value = '')
     {
@@ -34,7 +32,7 @@ class Divider extends BaseRenderer
     }
 
     /**
-     *  可选值: horizontal | vertical
+     * 方向 可选值: horizontal | vertical
      */
     public function direction($value = '')
     {
@@ -50,7 +48,7 @@ class Divider extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -74,7 +72,7 @@ class Divider extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -146,7 +144,7 @@ class Divider extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -180,21 +178,13 @@ class Divider extends BaseRenderer
     /**
      * 
      */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     * 
-     */
     public function testid($value = '')
     {
         return $this->set('testid', $value);
     }
 
     /**
-     * 
+     * 页面标题
      */
     public function title($value = '')
     {
@@ -202,7 +192,7 @@ class Divider extends BaseRenderer
     }
 
     /**
-     * 
+     * 表头单元格样式
      */
     public function titleClassName($value = '')
     {
@@ -218,7 +208,7 @@ class Divider extends BaseRenderer
     }
 
     /**
-     * 
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'divider')
     {
@@ -242,7 +232,7 @@ class Divider extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

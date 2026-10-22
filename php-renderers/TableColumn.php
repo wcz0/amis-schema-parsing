@@ -6,15 +6,10 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * 表格列，不指定类型时默认为文本类型。
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class TableColumn extends BaseRenderer
 {
-    public function __construct()
-    {
-        
-
-    }
 
     /**
      * 列对齐方式 可选值: left | right | center | justify
@@ -115,7 +110,7 @@ class TableColumn extends BaseRenderer
     /**
      * 当一次性渲染太多列上有用，默认为 100，可以用来提升表格渲染性能
      */
-    public function lazyRenderAfter($value = '')
+    public function lazyRenderAfter($value = 100)
     {
         return $this->set('lazyRenderAfter', $value);
     }

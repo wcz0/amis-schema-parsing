@@ -8,7 +8,7 @@ use Slowlyo\OwlAdmin\Traits\UploadTrait;
  * File 文件上传控件 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/file
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class FileControl extends BaseRenderer
 {
@@ -27,7 +27,7 @@ class FileControl extends BaseRenderer
     /**
      * 默认只支持纯文本，要支持其他类型，请配置此属性。建议直接填写文件后缀 如：.txt,.csv多个类型用逗号隔开。
      */
-    public function accept($value = '')
+    public function accept($value = 'text/plain')
     {
         return $this->set('accept', $value);
     }
@@ -75,7 +75,7 @@ class FileControl extends BaseRenderer
     /**
      * 上传文件按钮说明
      */
-    public function btnLabel($value = '')
+    public function btnLabel($value = '请选择文件')
     {
         return $this->set('btnLabel', $value);
     }
@@ -107,7 +107,7 @@ class FileControl extends BaseRenderer
     /**
      * 分块大小，默认为 5M.
      */
-    public function chunkSize($value = '')
+    public function chunkSize($value = 5242880)
     {
         return $this->set('chunkSize', $value);
     }
@@ -145,7 +145,8 @@ class FileControl extends BaseRenderer
     }
 
     /**
-     * 
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -177,7 +178,7 @@ class FileControl extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -243,7 +244,7 @@ class FileControl extends BaseRenderer
     /**
      * 默认 `file`, 如果你不想自己存储，则可以忽略此属性。
      */
-    public function fileField($value = '')
+    public function fileField($value = 'file')
     {
         return $this->set('fileField', $value);
     }
@@ -251,7 +252,7 @@ class FileControl extends BaseRenderer
     /**
      * 默认 `/api/upload/finishChunkApi` 想自己存储时才需要关注。 (默认 `/api/upload/finishChunkApi` 想自己存储时才需要关注。)
      */
-    public function finishChunkApi($value = '')
+    public function finishChunkApi($value = '/api/upload/finishChunkApi')
     {
         return $this->set('finishChunkApi', $value);
     }
@@ -265,7 +266,7 @@ class FileControl extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -353,7 +354,7 @@ class FileControl extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -377,7 +378,15 @@ class FileControl extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -475,13 +484,13 @@ class FileControl extends BaseRenderer
     /**
      * 默认 `/api/upload/file` 如果想自己存储，请设置此选项。 (默认 `/api/upload/file` 如果想自己存储，请设置此选项。)
      */
-    public function receiver($value = '')
+    public function receiver($value = '/api/upload/file')
     {
         return $this->set('receiver', $value);
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
@@ -531,7 +540,7 @@ class FileControl extends BaseRenderer
     /**
      * 默认 `/api/upload/startChunk` 想自己存储时才需要关注。
      */
-    public function startChunkApi($value = '')
+    public function startChunkApi($value = '/api/upload/startChunk')
     {
         return $this->set('startChunkApi', $value);
     }
@@ -577,7 +586,7 @@ class FileControl extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -622,14 +631,6 @@ class FileControl extends BaseRenderer
     public function templateUrl($value = '')
     {
         return $this->set('templateUrl', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
     }
 
     /**
@@ -721,7 +722,7 @@ class FileControl extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

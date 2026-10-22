@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * 二维码展示控件。 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/qrcode
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class QRCode extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'qrcode');
-
-
     }
 
     /**
@@ -36,7 +34,7 @@ class QRCode extends BaseRenderer
     /**
      * 二维码的宽高大小，默认 128
      */
-    public function codeSize($value = '')
+    public function codeSize($value = 128)
     {
         return $this->set('codeSize', $value);
     }
@@ -50,7 +48,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -68,7 +66,7 @@ class QRCode extends BaseRenderer
     /**
      * 码眼边框颜色
      */
-    public function eyeBorderColor($value = '')
+    public function eyeBorderColor($value = '#000000')
     {
         return $this->set('eyeBorderColor', $value);
     }
@@ -76,7 +74,7 @@ class QRCode extends BaseRenderer
     /**
      * 码眼边框大小 可选值: default | sm | xs
      */
-    public function eyeBorderSize($value = '')
+    public function eyeBorderSize($value = 'default')
     {
         return $this->set('eyeBorderSize', $value);
     }
@@ -84,7 +82,7 @@ class QRCode extends BaseRenderer
     /**
      * 码眼内部颜色
      */
-    public function eyeInnerColor($value = '')
+    public function eyeInnerColor($value = '#000000')
     {
         return $this->set('eyeInnerColor', $value);
     }
@@ -114,7 +112,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -180,7 +178,7 @@ class QRCode extends BaseRenderer
     /**
      * 码点大小 可选值: default | sm | xs
      */
-    public function pointSize($value = '')
+    public function pointSize($value = 'default')
     {
         return $this->set('pointSize', $value);
     }
@@ -242,7 +240,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -276,21 +274,13 @@ class QRCode extends BaseRenderer
     /**
      * 
      */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
-    }
-
-    /**
-     * 
-     */
     public function testid($value = '')
     {
         return $this->set('testid', $value);
     }
 
     /**
-     *  可选值: qrcode | qr-code
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = '')
     {
@@ -314,7 +304,7 @@ class QRCode extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

@@ -6,19 +6,17 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * ConditionGroupValue
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class ConditionGroupValue extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('conjunction', 'and');
-
-
     }
 
     /**
-     * 
+     * 表头分组
      */
     public function children($value = '')
     {
@@ -34,7 +32,7 @@ class ConditionGroupValue extends BaseRenderer
     }
 
     /**
-     * 
+     * 组件唯一 id，主要用于日志采集
      */
     public function id($value = '')
     {
@@ -44,7 +42,7 @@ class ConditionGroupValue extends BaseRenderer
     /**
      * 
      */
-    public function if($value = '')
+    public function setIf($value = '')
     {
         return $this->set('if', $value);
     }

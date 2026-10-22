@@ -6,15 +6,13 @@ namespace Slowlyo\OwlAdmin\Renderers;
  * Tasks 渲染器，格式说明 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/tasks
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class Tasks extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'tasks');
-
-
     }
 
     /**
@@ -28,7 +26,7 @@ class Tasks extends BaseRenderer
     /**
      * 操作按钮文字
      */
-    public function btnText($value = '')
+    public function btnText($value = '上线')
     {
         return $this->set('btnText', $value);
     }
@@ -66,7 +64,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -106,7 +104,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -132,13 +130,13 @@ class Tasks extends BaseRenderer
     /**
      * 当有任务进行中，会每隔一段时间再次检测，而时间间隔就是通过此项配置，默认 3s。
      */
-    public function interval($value = '')
+    public function interval($value = 3000)
     {
         return $this->set('interval', $value);
     }
 
     /**
-     * 
+     * 状态项列表
      */
     public function items($value = '')
     {
@@ -204,7 +202,7 @@ class Tasks extends BaseRenderer
     /**
      * 备注列说明
      */
-    public function remarkLabel($value = '')
+    public function remarkLabel($value = '备注')
     {
         return $this->set('remarkLabel', $value);
     }
@@ -212,7 +210,7 @@ class Tasks extends BaseRenderer
     /**
      * 配置容器重试按钮 className (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
      */
-    public function retryBtnClassName($value = '')
+    public function retryBtnClassName($value = 'btn-sm btn-danger')
     {
         return $this->set('retryBtnClassName', $value);
     }
@@ -220,7 +218,7 @@ class Tasks extends BaseRenderer
     /**
      * 重试操作按钮文字
      */
-    public function retryBtnText($value = '')
+    public function retryBtnText($value = '重试')
     {
         return $this->set('retryBtnText', $value);
     }
@@ -258,7 +256,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -284,7 +282,7 @@ class Tasks extends BaseRenderer
     /**
      * 状态列说明
      */
-    public function statusLabel($value = '')
+    public function statusLabel($value = '状态')
     {
         return $this->set('statusLabel', $value);
     }
@@ -292,7 +290,14 @@ class Tasks extends BaseRenderer
     /**
      * 状态显示对应的类名配置。
      */
-    public function statusLabelMap($value = '')
+    public function statusLabelMap($value = array (
+  0 => 'label-warning',
+  1 => 'label-info',
+  2 => 'label-success',
+  3 => 'label-danger',
+  4 => 'label-default',
+  5 => 'label-danger',
+))
     {
         return $this->set('statusLabelMap', $value);
     }
@@ -300,7 +305,7 @@ class Tasks extends BaseRenderer
     /**
      * 状态显示对应的文字显示配置。
      */
-    public function statusTextMap($value = '')
+    public function statusTextMap($value = '["未开始", "就绪", "进行中", "出错", "已完成", "出错"],')
     {
         return $this->set('statusTextMap', $value);
     }
@@ -332,17 +337,9 @@ class Tasks extends BaseRenderer
     /**
      * 任务名称列说明
      */
-    public function taskNameLabel($value = '')
+    public function taskNameLabel($value = '任务名称')
     {
         return $this->set('taskNameLabel', $value);
-    }
-
-    /**
-     * 
-     */
-    public function testIdBuilder($value = '')
-    {
-        return $this->set('testIdBuilder', $value);
     }
 
     /**
@@ -378,7 +375,7 @@ class Tasks extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {

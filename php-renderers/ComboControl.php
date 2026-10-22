@@ -3,22 +3,20 @@
 namespace Slowlyo\OwlAdmin\Renderers;
 
 /**
- * Combo 组合输入框类型 文档：https://aisuda.bce.baidu.com/amis/zh-CN/components/form/combo
+ * ComboControl
  * 
  * @author slowlyo
- * @version 6.12.0
+ * @version 6.13.0
  */
 class ComboControl extends BaseRenderer
 {
     public function __construct()
     {
         $this->set('type', 'combo');
-
-
     }
 
     /**
-     * 新增按钮CSS类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 新增按钮CSS类名
      */
     public function addButtonClassName($value = '')
     {
@@ -28,7 +26,7 @@ class ComboControl extends BaseRenderer
     /**
      * 新增按钮文字
      */
-    public function addButtonText($value = '')
+    public function addButtonText($value = '新增')
     {
         return $this->set('addButtonText', $value);
     }
@@ -90,7 +88,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 删除时调用的api (删除时调用的api)
+     * 删除时调用的api
      */
     public function deleteApi($value = '')
     {
@@ -114,7 +112,8 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 
+     * 描述 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
+更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
      */
     public function desc($value = '')
     {
@@ -146,7 +145,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 是否禁用表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否禁用表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function disabledOn($value = '')
     {
@@ -164,7 +163,7 @@ class ComboControl extends BaseRenderer
     /**
      * 可拖拽排序的提示信息。
      */
-    public function draggableTip($value = '')
+    public function draggableTip($value = '可拖拽排序')
     {
         return $this->set('draggableTip', $value);
     }
@@ -194,7 +193,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 内部单组表单项的类名 (css类名，配置字符串，或者对象。    className: "red"用对象配置时意味着你能跟表达式一起搭配使用，如：    className: {         "red": "data.progress > 80",         "blue": "data.progress > 60"     })
+     * 内部单组表单项的类名
      */
     public function formClassName($value = '')
     {
@@ -210,7 +209,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 是否隐藏表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否隐藏表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function hiddenOn($value = '')
     {
@@ -242,9 +241,9 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 
+     * 初始化时是否把其他字段同步到表单内部。
      */
-    public function initAutoFill($value = '')
+    public function initAutoFill($value = true)
     {
         return $this->set('initAutoFill', $value);
     }
@@ -282,7 +281,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 描述标题
+     * 描述标题, 当值为 false 时不展示
      */
     public function label($value = '')
     {
@@ -306,7 +305,15 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起 (显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起)
+     * label展示形式 可选值: default | ellipsis
+     */
+    public function labelOverflow($value = '')
+    {
+        return $this->set('labelOverflow', $value);
+    }
+
+    /**
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容, 这个小图标跟 label 在一起
      */
     public function labelRemark($value = '')
     {
@@ -410,9 +417,17 @@ class ComboControl extends BaseRenderer
     }
 
     /**
+     * 分页个数，默认不分页
+     */
+    public function perPage($value = '')
+    {
+        return $this->set('perPage', $value);
+    }
+
+    /**
      * 没有成员时显示。
      */
-    public function placeholder($value = '')
+    public function placeholder($value = 'empty')
     {
         return $this->set('placeholder', $value);
     }
@@ -434,7 +449,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 显示一个小图标, 鼠标放上去的时候显示提示内容 (显示一个小图标, 鼠标放上去的时候显示提示内容)
+     * 显示一个小图标, 鼠标放上去的时候显示提示内容
      */
     public function remark($value = '')
     {
@@ -476,7 +491,8 @@ class ComboControl extends BaseRenderer
     /**
      * 单组表单项初始值。默认为 `{}`
      */
-    public function scaffold($value = '')
+    public function scaffold($value = array (
+))
     {
         return $this->set('scaffold', $value);
     }
@@ -522,7 +538,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 是否静态展示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否静态展示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function staticOn($value = '')
     {
@@ -562,7 +578,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。 (如果是水平排版，这个属性可以细化水平排版的左右宽度占比。)
+     * 如果是水平排版，这个属性可以细化水平排版的左右宽度占比。
      */
     public function subFormHorizontal($value = '')
     {
@@ -594,8 +610,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 选项卡标题的生成模板。 (支持两种语法，但是不能混着用。分别是：1. `${xxx}` 或者 `${xxx|upperCase}` 2. `<%= data.xxx %>`
-更多文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template)
+     * 选项卡标题的生成模板。
      */
     public function tabsLabelTpl($value = '')
     {
@@ -603,7 +618,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 采用 Tabs 展示方式？
+     * 采用 Tabs 展示方式？ 可选值:  | line | card | radio | vertical | chrome | simple | strong | tiled | sidebar
      */
     public function tabsMode($value = true)
     {
@@ -627,7 +642,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 指定为组合输入框类型
+     * 指定为模板渲染器。文档：https://aisuda.bce.baidu.com/amis/zh-CN/docs/concepts/template
      */
     public function type($value = 'combo')
     {
@@ -707,7 +722,7 @@ class ComboControl extends BaseRenderer
     }
 
     /**
-     * 是否显示表达式 (表达式，语法 `data.xxx > 5`。)
+     * 是否显示表达式 (表达式，语法 `${xxx > 5}`。)
      */
     public function visibleOn($value = '')
     {
